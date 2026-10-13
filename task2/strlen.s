@@ -3,24 +3,23 @@
 my_strlen:
         pushq %rbp
         movq %rsp, %rbp
-        subq $4, %rsp
-        movl $0, -4(%rbp)
+        subq $16, %rsp
+        movq $0, -8(%rbp) # size_t i = 0
         jmp .L1
 .L1:    
-        movq %rdi, %rax
-        movb (%rax), %al #char c = str[i]
-        testb %al, %al #if(c != '0')
+        movb (%rdi), %al # char c = str[i]
+        testb %al, %al # if(c != '\0')
         jne .L2
-        movl -4(%rbp), %eax
+        movq -8(%rbp), %rax
         leave
         ret
 .L2:
-        addl $1, -4(%rbp)
-        addq $1, %rdi
+        incq -8(%rbp) # i++
+        incq %rdi
         jmp .L1
 /*
-int my_strlen(char* str){
-        int i = 0;
+size_t my_strlen(char* str){
+        size_t i = 0;
         while(true){
                 char c = str[i];
                 if(c != '\0'){

@@ -1,17 +1,9 @@
-/*
-extern int set_ctx(context_t *ctx);
-extern void jmp_to(context_t *ctx, int value);
-typedef struct {
-        uintptr_t rbx,rbp,r12,r13,r14,r15;
-        uintptr_t rsp;
-        uintptr_t rip; 
-} context_t;
-*/
 .section .text
 .global set_ctx
 .global jmp_to
 # 保存rbx,rbp,r12,r13,r14,r15
 set_ctx:
+    # 保存被调用者寄存器
     movq %rbx,  0(%rdi)
     movq %rbp,  8(%rdi)
     movq %r12, 16(%rdi)
@@ -36,6 +28,6 @@ jmp_to:
     movq 32(%rdi), %r14
     movq 40(%rdi), %r15
     movq 48(%rdi), %rsp
-    movq %rsi,%rax
+    movl %esi,%eax
     jmp *56(%rdi)
     
