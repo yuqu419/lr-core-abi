@@ -1,5 +1,11 @@
-long long fib(int a){
-    if(a == 0) return 0;
-    if(a == 1 || a == 2) return 1;
-    return fib(a - 1) + fib(a - 2);
+#include <stddef.h>
+size_t fib(size_t num) {
+    if(num == 0) return 0;
+    int a = 0,b = 1;
+    for (size_t i = 2; i <= num; ++i) {
+        int temp = a;
+        a = b;
+        b += temp;
+    }
+    return b;
 }
